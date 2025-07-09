@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../services/api_service.dart';
 import 'home_screen.dart';
 import 'login_screen.dart';
@@ -61,6 +62,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             backgroundColor: Colors.green,
           ),
         );
+        // Save user data in SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('user_mobile', _mobileController.text);
+        await prefs.setString('user_role', _selectedRole ?? '');
+
 
         // Navigate to login screen
         Navigator.pushReplacement(

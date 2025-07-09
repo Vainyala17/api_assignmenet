@@ -54,20 +54,24 @@ class ApiService {
   // 2. User Login
   // Updated loginUser method in ApiService
   static Future<Map<String, dynamic>> loginUser(String mobile, String password) async {
+    print('API login sent mobile: $mobile, password: $password');
+
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/users?mobile=$mobile&password=$password'),
         headers: {'Content-Type': 'application/json'},
       );
 
+      print('API response body: ${response.body}');
+
       if (response.statusCode == 200) {
         final List<dynamic> users = json.decode(response.body);
 
+        // No need to filter again if already filtered from API
         if (users.isNotEmpty) {
-          final user = users[0]; // Safely access first user
-          print('user : $user');
+          final user = users[0];
+          print('User found: $user');
 
-// Ensure mobile and role are converted to strings safely
           final formattedUser = {
             'mobile': user['mobile'].toString(),
             'role': user['role']?.toString() ?? 'Operator',
@@ -81,13 +85,12 @@ class ApiService {
             'user': formattedUser,
             'message': 'Login successful',
           };
-
         } else {
           return {
             'success': false,
             'token': null,
             'user': null,
-            'message': 'Invalid mobile number or password'
+            'message': 'Invalid mobile number or password',
           };
         }
       } else {
@@ -95,7 +98,7 @@ class ApiService {
           'success': false,
           'token': null,
           'user': null,
-          'message': 'Invalid credentials'
+          'message': 'Invalid credentials',
         };
       }
     } catch (e) {
@@ -103,7 +106,7 @@ class ApiService {
         'success': false,
         'token': null,
         'user': null,
-        'message': 'Login error: $e'
+        'message': 'Login error: $e',
       };
     }
   }
