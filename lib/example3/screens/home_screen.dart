@@ -9,21 +9,16 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-
-
 class _HomePageState extends State<HomePage> {
   String userMobile = '';
   String userRole = '';
   bool _isLoading = true;
 
   @override
-  @override
   void initState() {
     super.initState();
     _loadUserData(); // <-- this always loads latest
   }
-
-
 
   Future<void> _loadUserData() async {
     try {
@@ -58,14 +53,14 @@ class _HomePageState extends State<HomePage> {
       drawer: CustomDrawer(role: userRole),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
-          : Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Colors.blue.shade200, Colors.white],
-          ),
-        ),
+          : SingleChildScrollView(
+        // decoration: BoxDecoration(
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //     colors: [Colors.blue.shade200, Colors.white],
+        //   ),
+        // ),
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
